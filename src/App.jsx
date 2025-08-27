@@ -6,6 +6,19 @@ import { db } from "./data/db"
 function App() {
   console.log("Data: ", db)
   const [data, setData] = useState(db)
+  const [cart, setCart] = useState([])
+
+  function addToCart(item) {
+    const existedItem = cart.findIndex(element => element.id === item.id)
+    if (existedItem === -1) {
+      item.quantity = 1
+      setCart([...cart, item])
+    } else {
+      const updatedCart = [...cart]
+      updatedCart[existedItem].quantity++
+      setCart(updatedCart)
+    }
+  }
   
   return (
     <>
@@ -18,6 +31,7 @@ function App() {
               <Guitar
                 key={guitar.id}
                 guitar={guitar}
+                addToCart={addToCart}
               />
             ))}
           </div>
